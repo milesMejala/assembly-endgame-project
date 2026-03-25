@@ -4,26 +4,28 @@ import { useState} from "react";
 import { clsx } from "clsx"
  
 export default function App() {
-  const languageElements = languages.map((language, index) => (
-    <span
-      className="language-card"
-      style={{
-        backgroundColor: language.backgroundColor,
-        color: language.color,
-      }}
-      key={index}
-    >
-      {language.name}
-    </span>
-  ));
-
   const [currentWord, setCurrentWord] = useState("react");
   const [guessLetter, setGuessLetter] = useState([])
-  
   const wordArray = [...currentWord.toUpperCase()];
-  
   const wrongGuessCount = guessLetter.filter(letter => !wordArray.includes(letter)).length
-  console.log(wrongGuessCount)
+
+  const languageElements = languages.map((language, index) => {
+    const isLanguageLost = index < wrongGuessCount;
+    return (
+      <span
+        className={clsx("language-card", isLanguageLost && "lost")}
+        style={{
+          backgroundColor: language.backgroundColor,
+          color: language.color,
+        }}
+        key={index}
+      >
+        {language.name}
+      </span>
+    )
+  })
+
+  
 
   const currentWordElements = wordArray.map((letter, index) => (
     <span className="current-word-letter"
