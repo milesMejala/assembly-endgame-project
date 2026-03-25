@@ -60,3 +60,22 @@ header > p {
   font-size: 18px;
   text-transform: uppercase;
 }
+
+.new-game-btn {
+  margin: 36px auto 0 auto;
+  display: block;
+  border: 1px solid var(--color-text-light);
+  border-radius: 4px;
+  padding: 12px 42px;
+  background-color: var(--color-background-newgame-btn);
+  color: var(--color-text-dark);
+  font-weight: 600;
+}
+
+.right-letter {
+  background-color: var(--color-background-gametext-correct);
+}
+
+.wrong-letter {
+  background-color: var(--color-background-gametext-wrong);
+}
