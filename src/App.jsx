@@ -1,6 +1,6 @@
 import "./App.css";
 import { languages } from "../language";
-import { useState } from "react";
+import { useState} from "react";
 import { clsx } from "clsx"
  
 export default function App() {
@@ -19,8 +19,12 @@ export default function App() {
 
   const [currentWord, setCurrentWord] = useState("react");
   const [guessLetter, setGuessLetter] = useState([])
-
+  
   const wordArray = [...currentWord.toUpperCase()];
+  
+  const wrongGuessCount = guessLetter.filter(letter => !wordArray.includes(letter)).length
+  console.log(wrongGuessCount)
+
   const currentWordElements = wordArray.map((letter, index) => (
     <span className="current-word-letter"
       key={index}>
