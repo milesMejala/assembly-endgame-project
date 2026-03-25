@@ -1,26 +1,62 @@
 header > p {
-    margin-top: 4px;
-    text-wrap: balance;
+  margin-top: 4px;
+  text-wrap: balance;
 }
 
 .status-section {
-    margin-top: 20px;
-    border-radius: 4px;
-    padding: 19px 24px;
-    background-color: var(--color-background-css);
-    font-style: italic;
+  margin-top: 20px;
+  border-radius: 4px;
+  padding: 19px 24px;
+  background-color: var(--color-background-css);
+  font-style: italic;
 }
 
 .languages-wrapper {
-    margin: 36px auto 0 auto;
-    max-width: 350px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5px;
+  margin: 36px auto 0 auto;
+  max-width: 350px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5px;
 }
 
 .language-card {
-    border-radius: 3px;
-    padding: 4.5px;
+  border-radius: 3px;
+  padding: 4.5px;
+}
+
+.current-word-wrapper {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.current-word-letter {
+  border-bottom: 1px solid var(--color-text-light);
+  min-width: 40px;
+  min-height: 40px;
+  padding: 6px;
+  font-size: 18px;
+}
+
+.keyboard-section {
+  margin: 64px auto 0 auto;
+  max-width: 480px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.alphabet-letter {
+  border: 1px solid var(--color-text-light);
+  border-radius: 4px;
+  min-width: 40px;
+  min-height: 40px;
+  background-color: var(--color-background-gametext);
+  color: var(--color-text-dark);
+  padding: 6px;
+  font-size: 18px;
+  text-transform: uppercase;
 }
