@@ -1,0 +1,26 @@
+header > p {
+    margin-top: 4px;
+    text-wrap: balance;
+}
+
+.status-section {
+    margin-top: 20px;
+    border-radius: 4px;
+    padding: 19px 24px;
+    background-color: var(--color-background-css);
+    font-style: italic;
+}
+
+.languages-wrapper {
+    margin: 36px auto 0 auto;
+    max-width: 350px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5px;
+}
+
+.language-card {
+    border-radius: 3px;
+    padding: 4.5px;
+}
