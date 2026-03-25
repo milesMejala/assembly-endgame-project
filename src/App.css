@@ -40,6 +40,14 @@ header > p {
   font-size: 18px;
 }
 
+.show {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
 .keyboard-section {
   margin: 64px auto 0 auto;
   max-width: 480px;

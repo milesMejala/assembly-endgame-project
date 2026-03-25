@@ -18,14 +18,16 @@ export default function App() {
   ));
 
   const [currentWord, setCurrentWord] = useState("react");
+  const [guessLetter, setGuessLetter] = useState([])
+
   const wordArray = [...currentWord.toUpperCase()];
   const currentWordElements = wordArray.map((letter, index) => (
-    <span className="current-word-letter" key={index}>
-      {letter}
+    <span className="current-word-letter"
+      key={index}>
+        {guessLetter.includes(letter) && letter}
     </span>
   ));
 
-  const [guessLetter, setGuessLetter] = useState([])
   const chooseLetter = (letter) => {
     setGuessLetter(prevGuessLetter => 
       prevGuessLetter.includes(letter) ? prevGuessLetter : [...prevGuessLetter, letter]
