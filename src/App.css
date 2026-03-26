@@ -6,9 +6,25 @@ header > p {
 .status-section {
   margin-top: 20px;
   border-radius: 4px;
-  padding: 19px 24px;
-  background-color: var(--color-background-css);
+  color: var(--color-text-light);
+  padding: 14px 24px;
   font-style: italic;
+}
+
+.status-section > p {
+  font-weight: 500;
+}
+
+.status-section > p:first-child {
+  font-size: 20px;
+}
+
+.you-win {
+  background-color: var(--color-background-gametext-correct);
+}
+
+.you-lose {
+  background-color: #BA2A2A;
 }
 
 .languages-wrapper {
@@ -101,4 +117,12 @@ header > p {
   top: 0;
   left: 0;
   background-color: rgba(0,0,0,0.7);
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
 }

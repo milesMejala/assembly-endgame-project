@@ -4,10 +4,17 @@ import { useState} from "react";
 import { clsx } from "clsx"
  
 export default function App() {
+  // State Values
   const [currentWord, setCurrentWord] = useState("react");
   const [guessLetter, setGuessLetter] = useState([])
   const wordArray = [...currentWord.toUpperCase()];
+  
+  // Derived Values
   const wrongGuessCount = guessLetter.filter(letter => !wordArray.includes(letter)).length
+  const isGameWon = wordArray.every(letter => guessLetter.includes(letter))
+  const isGameLost = wrongGuessCount >= languages.length - 1 ? true : false
+
+  const isGameOver = isGameWon || isGameLost
 
   const languageElements = languages.map((language, index) => {
     const isLanguageLost = index < wrongGuessCount;
@@ -65,13 +72,16 @@ export default function App() {
         </p>
       </header>
       <main>
-        <section className="status-section">
-          <p className="status-text">"Farewell HTML & CSS"</p>
+        <section className={clsx("status-section invisible", 
+          isGameWon && "you-win visible",
+          isGameLost && "you-lose visible")}>
+          <p>{isGameWon ? "You win!" : "Game Over!"}</p>
+          <p>{isGameWon ? "Well done! 🎉" : "You lose! Better start learning Assembly 😭"}</p>
         </section>
         <div className="languages-wrapper">{languageElements}</div>
         <div className="current-word-wrapper">{currentWordElements}</div>
         <section className="keyboard-section">{alphabetElements}</section>
-        <button className="new-game-btn">New Game</button>
+        <button className={clsx("new-game-btn", !isGameOver && "invisible")}>New Game</button>
       </main>
     </>
   );
