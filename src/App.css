@@ -103,6 +103,13 @@ header > p {
   font-weight: 600;
 }
 
+.new-game-btn:focus {
+    /* Glowing outline to show it's active */
+    outline: 3px solid var(--color-background-gametext); /* Gold color */
+    outline-offset: 4px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
 .right-letter {
   background-color: var(--color-background-gametext-correct);
 }

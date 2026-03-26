@@ -86,11 +86,10 @@ export default function App() {
   const { width, height } = useWindowSize()
   const btnRef = useRef(null)
   useEffect(() => {
-    if (isGameWon) {
+    if (isGameOver) {
       btnRef.current.focus()
     }
-
-  },[isGameWon])
+  },[isGameOver])
 
   return (
     <>
