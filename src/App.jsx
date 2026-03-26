@@ -72,9 +72,11 @@ export default function App() {
         </p>
       </header>
       <main>
-        <section className={clsx("status-section invisible", 
-          isGameWon && "you-win visible",
-          isGameLost && "you-lose visible")}>
+        <section className={clsx("status-section", {
+            invisible: !isGameOver,
+            "you-win": isGameWon,
+            "you-lose": isGameLost
+          })}>
           <p>{isGameWon ? "You win!" : "Game Over!"}</p>
           <p>{isGameWon ? "Well done! 🎉" : "You lose! Better start learning Assembly 😭"}</p>
         </section>
