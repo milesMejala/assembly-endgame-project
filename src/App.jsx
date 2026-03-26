@@ -2,11 +2,11 @@ import "./App.css";
 import { languages } from "../language";
 import { useState} from "react";
 import { clsx } from "clsx"
-import { getFarewellText } from "../utils";
+import { getFarewellText, getRandomWord } from "../utils";
  
 export default function App() {
   // State Values
-  const [currentWord, setCurrentWord] = useState("react");
+  const [currentWord, setCurrentWord] = useState(() => getRandomWord);
   const [guessLetter, setGuessLetter] = useState([])
   const wordArray = [...currentWord.toUpperCase()];
   
@@ -98,6 +98,8 @@ export default function App() {
         </section>
         <div className="languages-wrapper">{languageElements}</div>
         <section className="current-word-wrapper">{currentWordElements}</section>
+
+        {/* Combined visually-hidden aria-live region for status updates */}
         <section 
           className="sr-only" 
           aria-live="polite"
