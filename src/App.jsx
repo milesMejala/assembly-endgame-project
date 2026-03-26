@@ -1,12 +1,13 @@
 import "./App.css";
 import { languages } from "../language";
-import { useState} from "react";
+import { useState,useEffect,useRef} from "react";
 import { clsx } from "clsx"
 import { getFarewellText, getRandomWord } from "../utils";
+import Confetti from "react-confetti";
  
 export default function App() {
   // State Values
-  const [currentWord, setCurrentWord] = useState(() => getRandomWord);
+  const [currentWord, setCurrentWord] = useState(() => getRandomWord());
   const [guessLetter, setGuessLetter] = useState([])
   const wordArray = [...currentWord.toUpperCase()];
   
@@ -15,10 +16,10 @@ export default function App() {
   const wrongGuessCount = guessLetter.filter(letter => !wordArray.includes(letter)).length
   const isGameWon = wordArray.every(letter => guessLetter.includes(letter))
   const isGameLost = wrongGuessCount >= numGuessesLeft ? true : false
+  const isGameOver = isGameWon || isGameLost
   const lastGuessLetter = guessLetter[guessLetter.length - 1]
   const isLastGuessIncorrect = guessLetter.length > 0 && !wordArray.includes(guessLetter[guessLetter.length - 1])
 
-  const isGameOver = isGameWon || isGameLost
 
   const languageElements = languages.map((language, index) => {
     const isLanguageLost = index < wrongGuessCount;
@@ -37,9 +38,9 @@ export default function App() {
   })
 
   const currentWordElements = wordArray.map((letter, index) => (
-    <span className="current-word-letter"
+    <span className={clsx("current-word-letter", isGameLost && !guessLetter.includes(letter) && "missed-letter")}
       key={index}>
-        {guessLetter.includes(letter) && letter}
+        {guessLetter.includes(letter) && letter || isGameLost && letter}
     </span>
   ));
 
@@ -49,12 +50,17 @@ export default function App() {
     )
   }
 
+  const resetGame = () => {
+    setCurrentWord(() => getRandomWord())
+    setGuessLetter([])
+  }
+
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const alphabetArray = [...alphabet.toUpperCase()];
   const alphabetElements = alphabetArray.map((letter, index) => (
     <button 
       key={index}
-      disabled={isGameOver}
+      disabled={isGameOver || guessLetter.includes(letter)}
       aria-disabled={guessLetter.includes(letter)}
       aria-label={`Letter ${letter}`}
       className={clsx("alphabet-letter", {
@@ -67,8 +73,28 @@ export default function App() {
     </button>
   ))
 
+  const useWindowSize = () => {
+    const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight })
+  
+    useEffect(() => {
+      const handler = () => setSize({ width: window.innerWidth, height: window.innerHeight })
+      window.addEventListener('resize', handler)
+      return () => window.removeEventListener('resize', handler)
+    }, [])
+    return size
+  }
+  const { width, height } = useWindowSize()
+  const btnRef = useRef(null)
+  useEffect(() => {
+    if (isGameWon) {
+      btnRef.current.focus()
+    }
+
+  },[isGameWon])
+
   return (
     <>
+      {isGameWon && <Confetti width={width} height={height} />}
       <header>
         <h1>Assembly: Endgame</h1>
         <p>
@@ -116,7 +142,7 @@ export default function App() {
             ).join(" ")}</p>
         </section>
         <section className="keyboard-section">{alphabetElements}</section>
-        <button className={clsx("new-game-btn", !isGameOver && "invisible")}>New Game</button>
+        <button className={clsx("new-game-btn", !isGameOver && "invisible")} ref={btnRef} onClick={resetGame}>New Game</button>
       </main>
     </>
   );
