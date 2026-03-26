@@ -5,18 +5,18 @@ header > p {
 
 .status-section {
   margin-top: 20px;
+  height: 80px;
   border-radius: 4px;
   color: var(--color-text-light);
-  padding: 14px 24px;
   font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .status-section > p {
   font-weight: 500;
-}
-
-.status-section > p:first-child {
-  font-size: 20px;
 }
 
 .you-win {
@@ -125,4 +125,10 @@ header > p {
 
 .visible {
   visibility: visible;
+}
+
+.farewell {
+  border-radius: 4px;
+  border: 1px dashed #323232;
+  background: #7A5EA7;
 }

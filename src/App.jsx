@@ -2,6 +2,7 @@ import "./App.css";
 import { languages } from "../language";
 import { useState} from "react";
 import { clsx } from "clsx"
+import { getFarewellText } from "../utils";
  
 export default function App() {
   // State Values
@@ -13,6 +14,7 @@ export default function App() {
   const wrongGuessCount = guessLetter.filter(letter => !wordArray.includes(letter)).length
   const isGameWon = wordArray.every(letter => guessLetter.includes(letter))
   const isGameLost = wrongGuessCount >= languages.length - 1 ? true : false
+  const isLastGuessIncorrect = guessLetter.length > 0 && !wordArray.includes(guessLetter[guessLetter.length - 1])
 
   const isGameOver = isGameWon || isGameLost
 
@@ -31,8 +33,6 @@ export default function App() {
       </span>
     )
   })
-
-  
 
   const currentWordElements = wordArray.map((letter, index) => (
     <span className="current-word-letter"
@@ -73,12 +73,20 @@ export default function App() {
       </header>
       <main>
         <section className={clsx("status-section", {
-            invisible: !isGameOver,
-            "you-win": isGameWon,
-            "you-lose": isGameLost
-          })}>
-          <p>{isGameWon ? "You win!" : "Game Over!"}</p>
-          <p>{isGameWon ? "Well done! 🎉" : "You lose! Better start learning Assembly 😭"}</p>
+          "invisible": !(isGameOver || isLastGuessIncorrect),
+          "you-win": isGameWon,
+          "farewell": !isGameOver && isLastGuessIncorrect,
+          "you-lose": isGameLost,
+        })}>
+          {!isGameOver && isLastGuessIncorrect && (
+            <h2>{getFarewellText(languages[wrongGuessCount - 1]?.name)}</h2>
+          )}
+          {isGameOver && (
+            <>
+              <h2>{isGameWon ? "You win!" : "Game Over!"}</h2>
+              <p>{isGameWon ? "Well done! 🎉" : "You lose! Better start learning Assembly 😭"}</p>
+            </>
+          )}
         </section>
         <div className="languages-wrapper">{languageElements}</div>
         <div className="current-word-wrapper">{currentWordElements}</div>
