@@ -11,9 +11,11 @@ export default function App() {
   const wordArray = [...currentWord.toUpperCase()];
   
   // Derived Values
+  const numGuessesLeft = languages.length - 1
   const wrongGuessCount = guessLetter.filter(letter => !wordArray.includes(letter)).length
   const isGameWon = wordArray.every(letter => guessLetter.includes(letter))
-  const isGameLost = wrongGuessCount >= languages.length - 1 ? true : false
+  const isGameLost = wrongGuessCount >= numGuessesLeft ? true : false
+  const lastGuessLetter = guessLetter[guessLetter.length - 1]
   const isLastGuessIncorrect = guessLetter.length > 0 && !wordArray.includes(guessLetter[guessLetter.length - 1])
 
   const isGameOver = isGameWon || isGameLost
@@ -52,6 +54,9 @@ export default function App() {
   const alphabetElements = alphabetArray.map((letter, index) => (
     <button 
       key={index}
+      disabled={isGameOver}
+      aria-disabled={guessLetter.includes(letter)}
+      aria-label={`Letter ${letter}`}
       className={clsx("alphabet-letter", {
         "right-letter": guessLetter.includes(letter) && wordArray.includes(letter),
         "wrong-letter": guessLetter.includes(letter) && !wordArray.includes(letter)
@@ -73,11 +78,14 @@ export default function App() {
       </header>
       <main>
         <section className={clsx("status-section", {
-          "invisible": !(isGameOver || isLastGuessIncorrect),
-          "you-win": isGameWon,
-          "farewell": !isGameOver && isLastGuessIncorrect,
-          "you-lose": isGameLost,
-        })}>
+            "invisible": !(isGameOver || isLastGuessIncorrect),
+            "you-win": isGameWon,
+            "farewell": !isGameOver && isLastGuessIncorrect,
+            "you-lose": isGameLost,
+          })}
+          aria-live="polite"
+          role="status"
+        >
           {!isGameOver && isLastGuessIncorrect && (
             <h2>{getFarewellText(languages[wrongGuessCount - 1]?.name)}</h2>
           )}
@@ -89,7 +97,22 @@ export default function App() {
           )}
         </section>
         <div className="languages-wrapper">{languageElements}</div>
-        <div className="current-word-wrapper">{currentWordElements}</div>
+        <section className="current-word-wrapper">{currentWordElements}</section>
+        <section 
+          className="sr-only" 
+          aria-live="polite"
+          role="status">
+            <p>
+              {wordArray.includes(lastGuessLetter) ? 
+                `Correct! The ${lastGuessLetter} is in the word.` :
+                `Sorry, the ${lastGuessLetter} is not in the word.`
+              }
+              You have {numGuessesLeft} attempts left.
+            </p>
+            <p>Current word: {wordArray.map(letter => 
+              guessLetter.includes(letter) ? letter + "." : "blank."
+            ).join(" ")}</p>
+        </section>
         <section className="keyboard-section">{alphabetElements}</section>
         <button className={clsx("new-game-btn", !isGameOver && "invisible")}>New Game</button>
       </main>
